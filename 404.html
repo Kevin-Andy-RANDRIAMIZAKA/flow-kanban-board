@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found — KanbanFlow</title>
+  <meta name="description" content="The KanbanFlow page you were looking for could not be found.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#f4f7f5">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231d5a55'/%3E%3Crect x='7' y='7' width='4.5' height='12' rx='2.25' fill='%23f4f7f5'/%3E%3Crect x='13.75' y='7' width='4.5' height='18' rx='2.25' fill='%23f4f7f5'/%3E%3Crect x='20.5' y='7' width='4.5' height='8' rx='2.25' fill='%239fd3c9'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("kanbanflow_theme");
+        var theme = saved === "light" || saved === "dark"
+          ? saved
+          : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+        var themeMeta = document.querySelector('meta[name="theme-color"]');
+        if (themeMeta) themeMeta.content = theme === "dark" ? "#111715" : "#f4f7f5";
+      } catch (error) {
+        document.documentElement.dataset.theme = "light";
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="error-body">
+  <main class="error-content">
+    <a class="brand" href="./index.html" aria-label="KanbanFlow home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <rect x="3.5" y="4" width="4" height="10" rx="2" fill="currentColor"/>
+          <rect x="10" y="4" width="4" height="16" rx="2" fill="currentColor"/>
+          <rect x="16.5" y="4" width="4" height="7" rx="2" fill="currentColor" opacity=".55"/>
+        </svg>
+      </span>
+      <span class="brand-name">KanbanFlow</span>
+    </a>
+
+    <div class="error-board" aria-hidden="true">
+      <div class="error-column">
+        <span class="error-column-title"></span>
+        <span class="error-card"></span>
+        <span class="error-card short"></span>
+      </div>
+      <div class="error-column">
+        <span class="error-column-title"></span>
+        <span class="error-card"></span>
+        <span class="error-card short"></span>
+      </div>
+      <div class="error-column error-column-empty">
+        <span class="error-column-title"></span>
+        <span class="error-empty-mark">?</span>
+      </div>
+    </div>
+
+    <p class="error-code">404</p>
+    <h1>This card isn’t on the board.</h1>
+    <p class="error-copy">The page you’re looking for has moved or never existed. Your board and your work are right where you left them.</p>
+
+    <div class="error-actions">
+      <a class="button button-primary" href="./index.html">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M15.75 10H4.25M8.5 5.75 4.25 10l4.25 4.25"/>
+        </svg>
+        Back to the board
+      </a>
+    </div>
+
+    <p class="error-note">KanbanFlow keeps your board saved in this browser.</p>
+  </main>
+</body>
+</html>

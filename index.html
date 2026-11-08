@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KanbanFlow — Product Launch board</title>
+  <meta name="description" content="A calm, local-first Kanban board for planning work from first draft to done.">
+  <meta name="theme-color" content="#f4f7f5">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231d5a55'/%3E%3Crect x='7' y='7' width='4.5' height='12' rx='2.25' fill='%23f4f7f5'/%3E%3Crect x='13.75' y='7' width='4.5' height='18' rx='2.25' fill='%23f4f7f5'/%3E%3Crect x='20.5' y='7' width='4.5' height='8' rx='2.25' fill='%239fd3c9'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("kanbanflow_theme");
+        var theme = saved === "light" || saved === "dark"
+          ? saved
+          : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+        var themeMeta = document.querySelector('meta[name="theme-color"]');
+        if (themeMeta) themeMeta.content = theme === "dark" ? "#111715" : "#f4f7f5";
+      } catch (error) {
+        document.documentElement.dataset.theme = "light";
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#board-region">Skip to board</a>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Workspace navigation">
+      <div class="sidebar-top">
+        <a class="brand" href="index.html" aria-label="KanbanFlow home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <rect x="3.5" y="4" width="4" height="10" rx="2" fill="currentColor"/>
+              <rect x="10" y="4" width="4" height="16" rx="2" fill="currentColor"/>
+              <rect x="16.5" y="4" width="4" height="7" rx="2" fill="currentColor" opacity=".55"/>
+            </svg>
+          </span>
+          <span class="brand-name">KanbanFlow</span>
+        </a>
+        <button class="icon-button sidebar-close" id="sidebar-close" type="button" aria-label="Close navigation">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+            <path d="m5 5 10 10M15 5 5 15"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="sidebar-main">
+        <div class="sidebar-section">
+          <p class="sidebar-label" id="boards-label">Boards</p>
+          <nav aria-labelledby="boards-label">
+            <a class="board-nav-link is-active" href="#board-region" aria-current="page" data-board-link>
+              <span class="board-nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="4" height="12" rx="1.6"/>
+                  <rect x="8.5" y="4" width="4" height="8" rx="1.6"/>
+                  <rect x="14" y="4" width="3" height="5" rx="1.5"/>
+                </svg>
+              </span>
+              <span class="board-nav-text">Product Launch</span>
+              <span class="board-nav-count" id="sidebar-task-count" aria-label="0 tasks">0</span>
+            </a>
+          </nav>
+        </div>
+
+        <div class="sidebar-hint">
+          <span class="hint-icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <circle cx="10" cy="10" r="7.25"/>
+              <path d="M10 9v4.25"/>
+              <path d="M10 6.35v.1"/>
+            </svg>
+          </span>
+          <p><strong>Work-in-progress limits</strong><span>In progress holds 4 tasks and Review holds 3. A full column stays locked until a card moves out.</span></p>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="theme-toggle" type="button" role="switch" aria-checked="false">
+          <span class="theme-icon" aria-hidden="true">
+            <svg class="icon-sun" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <circle cx="10" cy="10" r="3.25"/>
+              <path d="M10 2.25v1.5M10 16.25v1.5M17.75 10h-1.5M3.75 10h-1.5M15.48 4.52l-1.06 1.06M5.58 14.42l-1.06 1.06M15.48 15.48l-1.06-1.06M5.58 5.58 4.52 4.52"/>
+            </svg>
+            <svg class="icon-moon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16.25 12.2A6.75 6.75 0 0 1 7.8 3.75a6.75 6.75 0 1 0 8.45 8.45Z"/>
+            </svg>
+          </span>
+          <span class="theme-label">Dark mode</span>
+          <span class="switch" aria-hidden="true"><span class="switch-thumb"></span></span>
+        </button>
+        <p class="storage-note">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+            <rect x="4.25" y="8.5" width="11.5" height="8" rx="2"/>
+            <path d="M7 8.5V6a3 3 0 0 1 6 0v2.5"/>
+          </svg>
+          <span>Saved locally in this browser</span>
+        </p>
+      </div>
+    </aside>
+
+    <div class="sidebar-scrim" id="sidebar-scrim" hidden></div>
+
+    <div class="main" id="main-content">
+      <header class="page-header">
+        <div class="header-top">
+          <button class="icon-button menu-button" id="menu-button" type="button" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+              <path d="M3.25 6h13.5M3.25 10h13.5M3.25 14h9"/>
+            </svg>
+          </button>
+
+          <div class="board-heading">
+            <div class="board-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="4" y="5" width="3.5" height="9" rx="1.75" fill="currentColor"/>
+                <rect x="10.25" y="5" width="3.5" height="14" rx="1.75" fill="currentColor"/>
+                <rect x="16.5" y="5" width="3.5" height="6" rx="1.75" fill="currentColor" opacity=".55"/>
+              </svg>
+            </div>
+            <div>
+              <h1 id="page-title">Product Launch</h1>
+              <p class="board-summary">Everything the team needs to take v1 from first draft to done.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="toolbar" role="group" aria-label="Board controls">
+          <div class="search-field">
+            <svg class="search-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+              <circle cx="8.75" cy="8.75" r="5.25"/>
+              <path d="m12.7 12.7 3.3 3.3"/>
+            </svg>
+            <label class="visually-hidden" for="search-input">Search tasks</label>
+            <input id="search-input" type="search" placeholder="Search titles, descriptions, and tags" autocomplete="off" spellcheck="false">
+            <kbd class="search-shortcut" aria-hidden="true">/</kbd>
+          </div>
+
+          <div class="select-field">
+            <label class="visually-hidden" for="priority-filter">Filter by priority</label>
+            <select id="priority-filter">
+              <option value="all">All priorities</option>
+              <option value="low">Low priority</option>
+              <option value="medium">Medium priority</option>
+              <option value="high">High priority</option>
+            </select>
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m6 8 4 4 4-4"/>
+            </svg>
+          </div>
+
+          <button class="button button-ghost clear-button" id="clear-filters" type="button" disabled>Clear filters</button>
+
+          <button class="button button-primary" id="new-task" type="button">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+              <path d="M10 4.25v11.5M4.25 10h11.5"/>
+            </svg>
+            New task
+          </button>
+        </div>
+
+        <div class="stats" role="group" aria-label="Board statistics">
+          <div class="stat">
+            <span class="stat-value" id="stat-total">0</span>
+            <span class="stat-label">Total tasks</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-completed">0</span>
+            <span class="stat-label">Completed</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-due-today">0</span>
+            <span class="stat-label">Due today</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="stat-overdue">0</span>
+            <span class="stat-label">Overdue</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="board-region" id="board-region" aria-labelledby="board-title" tabindex="-1">
+        <h2 class="visually-hidden" id="board-title">Product Launch task board</h2>
+        <div class="view-bar">
+          <p class="view-summary" id="view-summary" aria-live="polite">No tasks yet</p>
+          <p class="drag-hint" id="drag-hint">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M7.5 8V5.75a1.25 1.25 0 0 1 2.5 0V8m0 0V4.75a1.25 1.25 0 0 1 2.5 0V8m0 0V5.75a1.25 1.25 0 0 1 2.5 0v5.5a4.75 4.75 0 0 1-4.75 4.75h-.5a4.2 4.2 0 0 1-3.35-1.68L4.8 12.1a1.25 1.25 0 0 1 1.9-1.62L8.75 12"/>
+            </svg>
+            Drag cards to reorder, or use a card’s menu to edit or move it.
+          </p>
+        </div>
+
+        <div class="board-scroller" id="board-scroller" role="region" aria-label="Kanban columns" aria-describedby="drag-hint" tabindex="0">
+          <div class="board" id="board"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="card-menu" id="card-menu" role="menu" aria-label="Task actions" hidden>
+    <button class="menu-item" type="button" role="menuitem" data-menu-action="edit">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m12.4 4.1 3.5 3.5M4.25 15.75l.7-3.5 7.45-7.45a1.8 1.8 0 0 1 2.55 0l.25.25a1.8 1.8 0 0 1 0 2.55L7.75 15.05l-3.5.7Z"/>
+      </svg>
+      Edit task
+    </button>
+    <button class="menu-item menu-item-danger" type="button" role="menuitem" data-menu-action="delete">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4.5 6.25h11M8 3.75h4M6 6.25l.6 9.1a1.5 1.5 0 0 0 1.5 1.4h3.8a1.5 1.5 0 0 0 1.5-1.4l.6-9.1M8.25 9v4.5M11.75 9v4.5"/>
+      </svg>
+      Delete task
+    </button>
+  </div>
+
+  <dialog class="modal" id="task-dialog" aria-labelledby="task-dialog-title" aria-describedby="task-dialog-description">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div>
+          <h2 id="task-dialog-title">New task</h2>
+          <p id="task-dialog-description">Add the details your future self will need.</p>
+        </div>
+        <button class="icon-button" id="modal-close" type="button" aria-label="Close dialog">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+            <path d="m5 5 10 10M15 5 5 15"/>
+          </svg>
+        </button>
+      </div>
+
+      <form id="task-form" novalidate>
+        <input id="task-id" type="hidden">
+
+        <div class="form-field">
+          <div class="field-heading">
+            <label for="task-title">Title <span class="required-mark" aria-hidden="true">*</span></label>
+            <span class="character-count" id="title-count">0 / 100</span>
+          </div>
+          <input id="task-title" name="title" type="text" maxlength="100" required autocomplete="off" aria-describedby="title-error title-count" placeholder="What needs to happen?">
+          <p class="field-error" id="title-error" hidden></p>
+        </div>
+
+        <div class="form-field">
+          <div class="field-heading">
+            <label for="task-description">Description</label>
+            <span class="character-count" id="description-count">0 / 500</span>
+          </div>
+          <textarea id="task-description" name="description" rows="3" maxlength="500" aria-describedby="description-error description-count" placeholder="Add context, links, or a definition of done."></textarea>
+          <p class="field-error" id="description-error" hidden></p>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="task-priority">Priority</label>
+            <div class="select-field select-field-block">
+              <select id="task-priority" name="priority">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+              </select>
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m6 8 4 4 4-4"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="task-due-date">Due date</label>
+            <input id="task-due-date" name="dueDate" type="date" aria-describedby="due-date-error">
+            <p class="field-error" id="due-date-error" hidden></p>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="task-column">Column</label>
+          <div class="select-field select-field-block">
+            <select id="task-column" name="columnId" aria-describedby="column-error">
+              <option value="todo">To do</option>
+              <option value="in-progress">In progress</option>
+              <option value="review">Review</option>
+              <option value="done">Done</option>
+            </select>
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m6 8 4 4 4-4"/>
+            </svg>
+          </div>
+          <p class="field-error" id="column-error" hidden></p>
+        </div>
+
+        <div class="form-field">
+          <div class="field-heading">
+            <label for="task-tags">Tags</label>
+            <span class="character-count" id="tag-count">0 / 4 tags</span>
+          </div>
+          <input id="task-tags" name="tags" type="text" autocomplete="off" aria-describedby="tags-hint tags-error" placeholder="launch, design, content">
+          <p class="field-hint" id="tags-hint">Separate tags with commas. Four tags maximum.</p>
+          <p class="field-error" id="tags-error" hidden></p>
+        </div>
+
+        <div class="modal-actions">
+          <button class="button button-ghost" id="modal-cancel" type="button">Cancel</button>
+          <button class="button button-primary" id="modal-submit" type="submit">Create task</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog class="modal modal-compact" id="confirm-dialog" aria-labelledby="confirm-title" aria-describedby="confirm-message">
+    <div class="modal-panel">
+      <div class="confirm-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 7h14M9.5 4h5M7 7l.75 11.4a1.9 1.9 0 0 0 1.9 1.8h4.7a1.9 1.9 0 0 0 1.9-1.8L17 7M10.25 10.5v5.5M13.75 10.5v5.5"/>
+        </svg>
+      </div>
+      <h2 id="confirm-title">Delete this task?</h2>
+      <p id="confirm-message">This item will be permanently removed from your board.</p>
+      <div class="modal-actions">
+        <button class="button button-ghost" id="confirm-cancel" type="button">Keep task</button>
+        <button class="button button-danger" id="confirm-delete" type="button">Delete task</button>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast-stack" id="toast-stack" aria-live="polite" aria-atomic="false"></div>
+  <div class="visually-hidden" id="live-region" aria-live="polite"></div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
