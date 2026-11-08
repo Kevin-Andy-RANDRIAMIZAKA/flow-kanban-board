@@ -2,7 +2,7 @@
 
 A calm, local-first Kanban board for moving work from first draft to done. KanbanFlow is a small, production-quality static web app built with semantic HTML, CSS, and vanilla JavaScript — no frameworks, build step, or backend.
 
-**Live demo:** [https://kanbanflow.kevinandy.mg](https://kanbanflow.kevinandy.mg)
+**Live demo:** [https://kanban.kevinandy.mg](https://kanban.kevinandy.mg)
 
 ![The KanbanFlow Product Launch board](./screenshot.png)
 
@@ -115,7 +115,7 @@ Because storage is local to the browser and site origin:
 2. In the repository, open **Settings → Pages**.
 3. Under **Build and deployment**, choose **Deploy from a branch**.
 4. Select the main branch and the `/ (root)` folder, then save.
-5. The `CNAME` file points GitHub Pages at `kanbanflow.kevinandy.mg`. Configure that custom domain in your DNS provider as GitHub Pages requires, and enable **Enforce HTTPS** when it becomes available.
+5. The `CNAME` file points GitHub Pages at `kanban.kevinandy.mg`. At the DNS provider for `kevinandy.mg`, create a CNAME record for host `kanban` pointing to `kevin-andy-randriamizaka.github.io` (DNS-only if the provider offers a proxy). Keep the custom domain in Pages set to `kanban.kevinandy.mg`, wait for GitHub's DNS check to pass, then enable **Enforce HTTPS** when it becomes available.
 
 `404.html` is picked up automatically by GitHub Pages for missing paths. No Actions workflow or build output folder is needed.
 
